@@ -107,7 +107,7 @@ def train(excel_path, dirs, use_planes):
         model.fit(
             train_inputs, y[tr],
             validation_data=(test_inputs, y[te]),
-            epochs=50,
+            epochs=100,
             batch_size=8,
             callbacks=[
                 ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5),
