@@ -8,36 +8,31 @@ Build a regression model that predicts gestational age (in days) from multi-plan
 
 **Model Architecture:** VGG16 (pretrained on ImageNet) Used to extract spatial features from each MRI plane.
 
-**Attention Module**
-1×1 convolution → sigmoid activation → element-wise multiplication. Highlights anatomically relevant regions.
+**Attention Module:** 1×1 convolution → sigmoid activation → element-wise multiplication. Highlights anatomically relevant regions.
 
-**Multi-Planar Fusion**
+**Multi-Planar Fusion:** Features from axial, coronal, and sagittal views are flattened and concatenated.
 
-Features from axial, coronal, and sagittal views are flattened and concatenated.
-
-**Regression Head**
-
-256-unit Dense layer → Dropout(0.5) → Linear output (gestational age in days)
+**Regression Head:** 256-unit Dense layer → Dropout(0.5) → Linear output (gestational age in days)
 
 **🧩 Training Workflow**
 
-**Step 1:** Load MRI slices from axial, coronal, and sagittal folders.
+**Step 1:** Load axial, coronal, and sagittal MRI slices.
 
 **Step 2:** Resize images to 224×224 and normalize pixel values to [0,1].
 
 **Step 3:** Stratified 5-fold cross-validation based on gestational age grouping.
 
-**Step 4:** Build a fresh VGG16-attention model for each fold.
+**Step 4:** Build a new VGG16-attention model for each fold.
 
-**Step 5**: Fine-tune selected VGG16 layers (last 100 layers trainable).
+**Step 5**: Fine-tune the last 100 VGG16 layers.
 
-**Step 6:** Train with Huber loss and Adam optimizer.
+**Step 6:** Train using Huber loss + Adam.
 
-**Step 7:** Evaluate predictions using MAE and R².
+**Step 7:** Evaluate using MAE and R².
 
 **🎯 Dataset**
 
-The dataset contains 261 fetal T2-weighted MRI scans, covering gestational ages from 19 to 39 weeks (median: 29 weeks). Gestational age was determined using the Last Menstrual Period (LMP), providing consistent clinical labels.
+Dataset includes 261 fetal T2-weighted MRI scans ranging from 19–39 weeks gestation (median: 29 weeks). Gestational age labels derived from Last Menstrual Period (LMP).
 
 Each subject includes multiple slices across three anatomical planes: Axial Coronal Sagittal
 
@@ -59,15 +54,11 @@ EarlyStopping (patience 10)
 
 Cross-validation: 5 folds
 
-**Metrics:**
-
-Mean Absolute Error (MAE)
-
-R² Score
+Metrics: Mean Absolute Error (MAE), R² Score
 
 **📊 Results**
 
-Using VGG16 + Multi-Planar Fusion + Attention, the model achieved:
+Model performance with VGG16 + attention + multi-planar fusion:
 
 MAE ≈ 4.5 days
 
@@ -77,24 +68,12 @@ Performance was stable across all folds with low variance.
 
 **🔍 Interpretability**
 
-Attention heatmaps were generated for:
-
-Axial
-
-Coronal
-
-Sagittal
-
-These maps highlight spatial regions that contributed most to gestational-age prediction.
+Attention heatmaps generated for axial, coronal, and sagittal views highlight spatial regions influencing the prediction output.
 
 **🛠 Technologies**
 
-TensorFlow / Keras
+Language: Python
 
-NumPy, Pandas, scikit-learn
+Frameworks: TensorFlow , Keras, NumPy, Pandas, scikit-learn, OpenCV
 
-OpenCV
-
-Python (Anaconda + Spyder)
-
-GPU-accelerated training environment
+Tools: Anaconda, Spyder, Git, GPU/ GPU-accelerated training environment
