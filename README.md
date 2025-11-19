@@ -6,23 +6,20 @@ Build a regression model that predicts gestational age (in days) from multi-plan
 
 **🧠 Methodology**
 
-**Model Architecture**
-
-**CNN Backbone: VGG16 (pretrained on ImageNet)**
-
-Used to extract spatial features from each MRI plane.
+**Model Architecture:** VGG16 (pretrained on ImageNet) Used to extract spatial features from each MRI plane.
 
 **Attention Module**
-1×1 convolution → sigmoid activation → element-wise multiplication
-Highlights anatomically relevant regions.
+1×1 convolution → sigmoid activation → element-wise multiplication. Highlights anatomically relevant regions.
 
 **Multi-Planar Fusion**
+
 Features from axial, coronal, and sagittal views are flattened and concatenated.
 
 **Regression Head**
+
 256-unit Dense layer → Dropout(0.5) → Linear output (gestational age in days)
 
-**Training Workflow**
+**🧩 Training Workflow**
 
 **Step 1:** Load MRI slices from axial, coronal, and sagittal folders.
 
